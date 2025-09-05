@@ -1,0 +1,280 @@
+/* app/panda/Panda.module.css */
+
+/* ===== Base + full graph paper background ===== */
+.root {
+  --bg: #ffffff;
+  --text: #0a0a0a;
+  --muted: #6b7280;
+  --muted-2: #9ca3af;
+  --border: #e5e7eb;
+  --badge-yes-bg: #0a0a0a;
+  --badge-yes-text: #ffffff;
+  --badge-no-bg: #ffffff;
+  --badge-no-text: #0a0a0a;
+  --ring: #0a0a0a;
+  --card-radius: 16px;
+
+  min-height: 100svh;
+  color: var(--text);
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Helvetica,
+    Arial,
+    "Apple Color Emoji",
+    "Segoe UI Emoji";
+
+  /* Graph paper across entire screen (fine + coarse, vertical + horizontal) */
+  background-image:
+    linear-gradient(to right, rgba(10, 10, 10, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10, 10, 10, 0.045) 1px, transparent 1px),
+    linear-gradient(to right, rgba(10, 10, 10, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10, 10, 10, 0.08) 1px, transparent 1px);
+  background-size:
+    40px 40px,
+    /* fine grid size */ 40px 40px,
+    200px 200px,
+    /* coarse grid size */ 200px 200px;
+  background-position:
+    top left,
+    top left,
+    top left,
+    top left;
+  background-color: var(--bg);
+}
+
+.root * {
+  box-sizing: border-box;
+}
+
+/* ===== Top bar ===== */
+.topbar {
+  border-bottom: 1px solid var(--border);
+  background: #fff;
+}
+.topbarInner {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.homeLink {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.875rem;
+  padding: 0 0.25rem;
+  border-radius: 6px;
+  transition: color 120ms ease;
+}
+.homeLink:hover,
+.homeLink:focus-visible {
+  color: var(--text);
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.brand {
+  color: var(--muted-2);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+}
+
+/* ===== Content ===== */
+.section {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+.title {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 1.875rem);
+}
+
+/* Card */
+.card {
+  margin-top: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+/* Status row */
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.label {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* ===== Matchup: one horizontal row (Away | center | Home) ===== */
+.matchup {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Team columns (left/right) */
+.teamCol {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.teamColLeft {
+  flex: 1 1 40%;
+  justify-content: flex-start;
+}
+.teamColRight {
+  flex: 1 1 40%;
+  justify-content: flex-end;
+}
+
+/* “Logo” circle: initials */
+.logoCircle {
+  width: 56px;
+  height: 56px;
+  flex: 0 0 56px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: #fff;
+}
+
+/* Name + record inline */
+.teamMeta {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+  flex-wrap: nowrap;
+}
+.teamName {
+  font-weight: 600;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 260px;
+}
+.record {
+  font-size: 0.9rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* Center column (score/VS + sub-status) */
+.centerCol {
+  flex: 0 0 180px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.vs {
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+.score {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.scoreNum {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.scoreDash {
+  font-weight: 600;
+  opacity: 0.6;
+}
+.subStatus {
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: var(--muted-2);
+}
+
+@media (max-width: 480px) {
+  .centerCol {
+    flex-basis: 140px;
+  }
+  .teamName {
+    max-width: 180px;
+  }
+}
+
+/* ===== Details / notes ===== */
+.details {
+  padding: 1.5rem;
+}
+.source {
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+.note {
+  margin-top: 0.5rem;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+.footnote {
+  padding-top: 1rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--muted-2);
+}
+.em {
+  font-weight: 600;
+}
+
+/* ===== Status badge ===== */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  backdrop-filter: saturate(120%);
+}
+.statusYes {
+  background: var(--badge-yes-bg);
+  color: var(--badge-yes-text);
+}
+.statusNo {
+  background: var(--badge-no-bg);
+  color: var(--badge-no-text);
+}
+
+/* ===== Footer ===== */
+.footer {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  color: var(--muted-2);
+  font-size: 0.75rem;
+}
