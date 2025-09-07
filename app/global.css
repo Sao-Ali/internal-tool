@@ -1,0 +1,283 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================
+   Palette (Palantir-ish, B/W)
+   ========================= */
+:root {
+  /* original vars that existed in your base */
+  --sh-class: #2d5e9d;
+  --sh-identifier: #354150;
+  --sh-sign: #8996a3;
+  --sh-string: #007f7a;
+  --sh-keyword: #e02518;
+  --sh-comment: #a19595;
+  --sh-jsxliterals: #6266d1;
+  --sh-property: #e25a1c;
+  --sh-entity: #e25a1c;
+
+  /* legacy palette kept (unused for now) */
+  --foreground-rgb: rgba(0, 0, 0);
+  --color-white: rgba(255, 252, 250);
+  --color-green: rgba(79, 143, 73);
+  --color-green-faded: rgba(218, 228, 213);
+  --color-green-faded-xl: rgba(79, 143, 73, 0.05);
+  --color-off-white: rgba(79, 143, 73, 0.02);
+  --color-gray: rgba(113, 113, 113);
+  --color-red: rgba(255, 60, 60);
+  --color-blue: rgba(70, 130, 255);
+
+  /* ops theme */
+  --ops-bg: #ffffff;
+  --ops-ink: #0b0d0f;
+  --ops-ink-2: #1b1f23;
+  --ops-line: #e6e8eb; /* hairline grey */
+  --ops-muted: #6b7280;
+  --ops-accent: #0b0d0f; /* map "text-green" to black for Palantir vibe */
+}
+
+::selection {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+html {
+  min-width: 360px;
+  font-family: var(
+    --font-inria-sans,
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Helvetica,
+    Arial,
+    "Apple Color Emoji",
+    "Segoe UI Emoji"
+  );
+  @apply text-neutral-900 bg-white;
+}
+
+.leaflet-div-icon {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-patrick-hand-sc, ui-sans-serif, Inter, system-ui);
+}
+
+button {
+  font-family: inherit;
+}
+
+h1 {
+  @apply text-neutral-900 text-4xl font-bold mb-4;
+}
+h1 strong {
+  @apply text-green text-5xl tracking-tight;
+} /* mapped to ops-accent (black) below */
+h2 {
+  @apply text-neutral-900 text-3xl font-bold mb-2 leading-7;
+}
+h3 {
+  @apply text-neutral-900 text-2xl font-bold mb-2 leading-6;
+}
+
+a,
+p,
+li {
+  @apply text-neutral-900 text-base font-normal leading-6 tracking-wide;
+}
+
+/* Monochrome hyperlink */
+a.hyperlink {
+  color: var(--ops-ink);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  padding-bottom: 6px;
+}
+a.hyperlink:hover {
+  background: none;
+  text-decoration-thickness: 2px;
+  padding-bottom: 6px;
+}
+
+/* back button hover wiggle (kept) */
+a.back-button {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-family: var(--font-patrick-hand-sc);
+}
+a.back-button svg {
+  @apply mt-2;
+}
+a.back-button:hover svg {
+  animation: wiggle 0.25s ease-in-out infinite alternate;
+}
+
+.prose img {
+  @apply m-0;
+}
+.prose .image-formatter {
+  @apply my-4;
+}
+.prose > p {
+  @apply my-4 text-neutral-900;
+}
+.prose h1 {
+  @apply text-4xl font-bold mt-6 mb-4;
+}
+.prose h2 {
+  @apply text-3xl font-bold mt-6 mb-4;
+}
+.prose h3 {
+  @apply text-2xl font-bold mt-6 mb-4;
+}
+.prose h4 {
+  @apply text-xl font-bold mt-6 mb-4;
+}
+.prose strong {
+  @apply font-bold;
+}
+.prose ul,
+.summary ul {
+  @apply list-disc pl-6;
+}
+.prose ol,
+.summary ol {
+  @apply list-decimal pl-6 my-4;
+}
+.prose > :first-child {
+  margin-top: 1.25em !important;
+  margin-bottom: 1.25em !important;
+}
+.prose .blockquote {
+  @apply my-4;
+}
+
+pre::-webkit-scrollbar {
+  display: none;
+}
+pre {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+input[type="text"],
+input[type="email"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+table {
+  display: block;
+  max-width: fit-content;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.title {
+  text-wrap: balance;
+}
+
+@keyframes move {
+  from {
+    background-position: 2px 19px;
+  }
+  to {
+    background-position: 500px 19px;
+  }
+}
+@keyframes wiggle {
+  from {
+    transform: rotate(-6deg);
+  }
+  to {
+    transform: rotate(7deg);
+  }
+}
+
+/* =========================
+   Ops Utilities / Components
+   ========================= */
+
+/* Map the legacy "text-green" utility to black accent for this theme */
+.text-green {
+  color: var(--ops-accent) !important;
+}
+
+/* Hairline divider */
+.ops-divider {
+  border: 0;
+  height: 1px;
+  background: var(--ops-line);
+}
+
+/* Ops card: straight lines, square corners, subtle shadow */
+.ops-card {
+  border: 1px solid var(--ops-ink);
+  box-shadow: 0 1px 0 0 var(--ops-ink);
+  background: var(--ops-bg);
+}
+
+/* Card header label (mil-spec feel) */
+.ops-label {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 11px;
+  line-height: 1rem;
+  color: var(--ops-muted);
+}
+
+/* Primary button (black/white) */
+.btn {
+  @apply inline-flex items-center justify-center px-3 py-2 text-sm font-medium;
+  background: var(--ops-ink);
+  color: #ffffff;
+  border: 1px solid var(--ops-ink);
+}
+.btn:hover {
+  filter: brightness(0.92);
+}
+
+/* Ghost button (outline) */
+.btn-ghost {
+  @apply inline-flex items-center justify-center px-3 py-2 text-sm font-medium;
+  background: transparent;
+  color: var(--ops-ink);
+  border: 1px solid var(--ops-ink);
+}
+.btn-ghost:hover {
+  background: #f6f7f8;
+}
+
+/* Subtle grid background helper (optional) */
+.ops-grid {
+  background-image:
+    linear-gradient(var(--ops-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ops-line) 1px, transparent 1px);
+  background-size:
+    24px 24px,
+    24px 24px;
+  background-position:
+    -1px -1px,
+    -1px -1px;
+}
+
+/* Icon strokes inherit accent */
+svg[stroke="currentColor"] {
+  color: var(--ops-accent);
+}
+
+/* Container sizing kept like your previous layout */
+.container-narrow {
+  @apply max-w-xl mx-auto;
+}

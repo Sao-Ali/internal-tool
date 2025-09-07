@@ -1,136 +1,198 @@
-"use client";
+import Image from "next/image";
 
-import { FloatingDock } from "@/components/ui/floating-dock";
-import { ThemeGlyph } from "@/components/theme-glyph";
-import { useTheme } from "next-themes";
-import {
-  IconHome,
-  IconNotes,
-  IconFileCv,
-  IconTools,
-} from "@tabler/icons-react";
+function OpsIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      aria-hidden
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 12 L20 6" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
 
-const projects = [
-  {
-    title: "Avionics: BITE Fault Export",
-    blurb: "Production tool for technicians — reliability-first.",
-    href: "/tools/bite-export",
-  },
-  {
-    title: "Edge AI on FPGA",
-    blurb: "On-device inference for constrained hardware.",
-    href: "/docs/edge-ai-notes",
-  },
-  {
-    title: "Room Booking Platform",
-    blurb: "Custom calendar + auth; serving 3k+ students.",
-    href: "/docs/room-booking",
-  },
-];
+/** Minimal PostCard stand-in */
+function PostCard({
+  title,
+  description,
+  href = "#",
+  latest = false,
+}: {
+  title: string;
+  description: string;
+  href?: string;
+  latest?: boolean;
+}) {
+  return (
+    <a
+      href={href}
+      className="block ops-card p-4 hover:bg-neutral-50 transition-colors"
+    >
+      <div className="flex items-center justify-between">
+        <span className="ops-label">{latest ? "Latest" : "Article"}</span>
+        <OpsIcon />
+      </div>
+      <h3 className="mt-2">{title}</h3>
+      <p className="mt-1 text-sm text-neutral-700">{description}</p>
+    </a>
+  );
+}
 
-export default function Home() {
-  const { setTheme, resolvedTheme, theme } = useTheme();
-  const isDark = (resolvedTheme ?? theme) === "dark";
-  const toggleTheme = () => setTheme(isDark ? "light" : "dark");
+/** Divider */
+function Divider() {
+  return <hr className="ops-divider my-8" />;
+}
 
-  const dockItems = [
-    { title: "Home", icon: <IconHome />, href: "/" },
-    { title: "Resume", icon: <IconFileCv />, href: "/resume" },
-    { title: "Docs", icon: <IconNotes />, href: "/docs" },
-    { title: "Tools", icon: <IconTools />, href: "/tools" },
-    // Theme toggle: icon only, click handled by the dock's outer button (no nested buttons)
-    { title: "Theme", icon: <ThemeGlyph size={20} />, onClick: toggleTheme },
+export default function Page() {
+  // Hard-coded blog list for now
+  const RECOMMENDED = [
+    {
+      title: "Export Flow v2 — Notes from the Trenches",
+      description:
+        "Designing a predictable log export pipeline without surprises.",
+    },
+    {
+      title: "Edge Reliability > Fancy Dashboards",
+      description: "Operational heuristics that actually move MTTR down.",
+    },
+    {
+      title: "What I Learned Building a Room Booking System",
+      description: "Roles, conflicts, calendars, and the joy of constraints.",
+    },
+  ];
+
+  const ALL_POSTS = [
+    "How I Structure Internal Tools",
+    "Unit Testing UI Logic Without a UI",
+    "Notes on FPGA + Tiny Models",
+    "Checklist: Shipping Small, Shipping Often",
   ];
 
   return (
-    <main className="min-h-[100dvh] text-neutral-900 dark:text-zinc-100">
-      <div className="mx-auto w-full max-w-5xl px-6 py-16 md:py-24">
-        {/* hero */}
-        <section className="grid items-center gap-8 md:grid-cols-[280px_1fr]">
-          <div className="relative">
-            <img
-              src="/ali.jpg"
-              alt="Portrait of Ali"
-              className="aspect-[4/5] w-full rounded-2xl object-cover ring-1"
-              style={{ boxShadow: `0 1px 0 var(--ring)` }}
-            />
-          </div>
+    <div className="container-narrow">
+      {/* INTRO */}
+      <section id="intro" className="m-auto flex flex-col">
+        <div className="flex flex-col gap-3 mt-6">
+          <h1>
+            Welcome To{" "}
+            <strong className="text-green leading-4">
+              Ali&apos;s Internal-Tool
+            </strong>
+          </h1>
+          <p>
+            hi! i’m ali, a software engineer in irvine, ca. i’m most alive
+            working at the intersection of software and hardware—turning ideas
+            into systems that run in the real world. i’m especially drawn to
+            defense tech, where reliability isn’t optional.
+          </p>
+          <p>
+            This page is a staging ground—intro first, then the internal tool
+            area, and finally a blog list (hard-coded for now).
+          </p>
+        </div>
 
-          <div>
-            <h1 className="text-4xl md:text-5xl font-semibold tracking-tight">
-              Ali Sao
-            </h1>
-            <p className="mt-4 text-neutral-700 dark:text-zinc-400 max-w-prose">
-              I build reliable systems that ship: embedded, FPGA, and production
-              web. One-stop place for my work — clean, fast, defense-grade.
+        <div className="px-2 py-6">
+          {/* subtle instruction label */}
+          <span className="ops-label">Scroll for tools</span>
+        </div>
+
+        <Divider />
+      </section>
+
+      {/* INTERNAL TOOL */}
+      <section id="tools" className="m-auto">
+        <h2>internal tool (alpha)</h2>
+        <p className="text-neutral-700">
+          Hard-coded tiles for projects I&apos;m about to build. Zero magic—just
+          boxes and intent.
+        </p>
+
+        <div className="grid grid-cols-1 gap-4 pt-4">
+          {/* Panda Express Monitor */}
+          <div className="ops-card p-4">
+            <div className="flex items-center justify-between">
+              <span className="ops-label">Module</span>
+              <OpsIcon />
+            </div>
+            <h3 className="mt-2">Panda Express Monitor</h3>
+            <p className="mt-1 text-sm text-neutral-700">
+              Polls nearby Panda locations for status &amp; specials. Aggregates
+              hours, line estimates, and a simple “open/closed” signal.
             </p>
-
-            <div className="mt-6 flex flex-wrap gap-3">
-              <a
-                href="/resume"
-                className="px-4 py-2 rounded-lg ring-1 hover:bg-black/[.03] dark:hover:bg-white/[.05]"
-                style={{ boxShadow: `0 1px 0 var(--ring)` }}
-              >
-                Resume
-              </a>
-              <a
-                href="/docs"
-                className="px-4 py-2 rounded-lg ring-1 hover:bg-black/[.03] dark:hover:bg-white/[.05]"
-                style={{ boxShadow: `0 1px 0 var(--ring)` }}
-              >
-                Docs / Blog
-              </a>
-              <a
-                href="/tools"
-                className="px-4 py-2 rounded-lg ring-1"
-                style={{
-                  background: "var(--bubble)",
-                  boxShadow: `0 1px 0 var(--ring)`,
-                }}
-              >
-                Tools
-              </a>
+            <div className="mt-3 flex gap-2">
+              <button className="btn">Open Console</button>
+              <button className="btn-ghost">View Logs</button>
             </div>
           </div>
-        </section>
 
-        {/* Now / projects */}
-        <section className="mt-16">
-          <div className="flex items-baseline justify-between">
-            <h2 className="text-lg text-neutral-800 dark:text-zinc-300">Now</h2>
-            <a
-              href="/projects"
-              className="text-sm text-blue-700 dark:text-emerald-300 hover:underline"
-            >
-              All projects →
-            </a>
+          {/* Spotify Randomizer of the Week */}
+          <div className="ops-card p-4">
+            <div className="flex items-center justify-between">
+              <span className="ops-label">Module</span>
+              <OpsIcon />
+            </div>
+            <h3 className="mt-2">Spotify Randomizer of the Week</h3>
+            <p className="mt-1 text-sm text-neutral-700">
+              Generates one randomized weekly playlist from seed artists/genres.
+              Stores selection, exposes a simple share link.
+            </p>
+            <div className="mt-3 flex gap-2">
+              <button className="btn">Generate</button>
+              <button className="btn-ghost">History</button>
+            </div>
           </div>
-          <ul className="mt-4 grid gap-4 md:grid-cols-3">
-            {projects.map((p) => (
-              <li key={p.title}>
-                <a
-                  href={p.href}
-                  className="block rounded-xl p-4 ring-1 card-surface hover:opacity-95"
-                >
-                  <div className="font-medium">{p.title}</div>
-                  <div className="mt-1 text-sm text-neutral-700 dark:text-zinc-400">
-                    {p.blurb}
-                  </div>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-      </div>
 
-      {/* Dock */}
-      <div className="pointer-events-none fixed inset-x-0 bottom-6 z-50 flex justify-center">
-        <FloatingDock
-          items={dockItems}
-          desktopClassName="pointer-events-auto"
-          mobileClassName="pointer-events-auto fixed bottom-6 right-6"
-        />
-      </div>
-    </main>
+          {/* Log Export Center (BITE-like) */}
+          <div className="ops-card p-4">
+            <div className="flex items-center justify-between">
+              <span className="ops-label">Module</span>
+              <OpsIcon />
+            </div>
+            <h3 className="mt-2">Log Export Center</h3>
+            <p className="mt-1 text-sm text-neutral-700">
+              Deterministic exports for diagnostics. Pick timeframe &amp;
+              source, then produce a signed artifact.
+            </p>
+            <div className="mt-3 flex gap-2">
+              <button className="btn">Generate Export</button>
+              <button className="btn-ghost">Configure</button>
+            </div>
+          </div>
+        </div>
+
+        <Divider />
+      </section>
+
+      {/* BLOG (hard-coded) */}
+      <section id="blog" className="m-auto">
+        <h2>i recommend reading...</h2>
+        <div className="grid grid-cols-1 gap-4 pt-4">
+          {RECOMMENDED.map((post, i) => (
+            <PostCard
+              key={post.title}
+              title={post.title}
+              description={post.description}
+              latest={i === 0}
+            />
+          ))}
+        </div>
+
+        <Divider />
+
+        <h2>everything else i&apos;ve written so far</h2>
+        <div className="pt-4 space-y-2">
+          {ALL_POSTS.map((t) => (
+            <a key={t} href="#" className="block underline hover:no-underline">
+              {t}
+            </a>
+          ))}
+        </div>
+      </section>
+    </div>
   );
 }
